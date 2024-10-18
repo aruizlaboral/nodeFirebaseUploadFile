@@ -4,7 +4,7 @@
 Node js witch Firebase for Upload File
 
 ## Crear sdk firebase
-renombrar y guardar como: delivery-b9284-firebase
+Descargar y guardar como: delivery-b9284-firebase
 
 Modificar archivo firebase-config.js remplazar la linea storageBucket
 
