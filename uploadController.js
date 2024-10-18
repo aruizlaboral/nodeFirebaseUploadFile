@@ -1,9 +1,7 @@
-// controller.js
 const bucket = require('./firebase-config').bucket;
 const { v4: uuidv4 } = require('uuid');
-const User = require('./users');
 
-exports.uploadFile = async (req, res) => {
+exports.uploadFile = async (req, res, next) => {
   try {
     if (!req.file) {
       return res.status(400).send('No se proporcionó ningún archivo.');
@@ -26,17 +24,8 @@ exports.uploadFile = async (req, res) => {
 
     blobStream.on('finish', async () => {
       await fileUpload.makePublic();
-      const publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
-
-      // agregando valor a propiedad de Objeto User
-      const user = new User();
-      user.image = publicUrl;
-
-      res.status(200).send({ 
-        success: true,
-        message: 'se guardo  correctamente la imagen',
-        image: user.image
-    });
+      req.publicUrl = `https://storage.googleapis.com/${bucket.name}/${fileName}`;
+      next();
     });
 
     blobStream.end(file.buffer);
